@@ -8,6 +8,7 @@
 		}
 	],
 	"globalStyle": {
+		"navigationStyle": "custom",
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "图鸟UI",
 		"navigationBarBackgroundColor": "#F8F8F8",

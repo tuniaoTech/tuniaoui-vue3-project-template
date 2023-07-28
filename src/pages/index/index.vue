@@ -1,72 +1,91 @@
 <script setup lang="ts">
-  import { ref } from 'vue'
-  import TnButton from '@tuniao/tnui-vue3-uniapp/components/button/src/button.vue'
-  import TnTabbar from '@tuniao/tnui-vue3-uniapp/components/tabbar/src/tabbar.vue'
-  import TnTabbarItem from '@tuniao/tnui-vue3-uniapp/components/tabbar/src/tabbar-item.vue'
-  import TnNotify from '@tuniao/tnui-vue3-uniapp/components/notify/src/notify.vue'
+import { nextTick } from 'vue'
+import { onLoad } from '@dcloudio/uni-app'
+import TnTabbar from '@tuniao/tnui-vue3-uniapp/components/tabbar/src/tabbar.vue'
+import TnTabbarItem from '@tuniao/tnui-vue3-uniapp/components/tabbar/src/tabbar-item.vue'
 
-  import type { TnNotifyInstance } from '@tuniao/tnui-vue3-uniapp'
+/* 引入子页面 */
+import PageA from './sub-pages/page-a/index.vue'
+import PageB from './sub-pages/page-b/index.vue'
+import PageC from './sub-pages/page-c/index.vue'
+import PageD from './sub-pages/page-d/index.vue'
 
-  const notifyRef = ref<TnNotifyInstance>()
+import { useIndex, useIndexCustomStyle } from './composables'
 
-  const counter = ref(0)
-  const addCounter = () => {
-    counter.value++
-  }
+const { tabbarData, currentTabbarIndex, renderPageStatus, tabbarChangeHandle } =
+  useIndex()
+const { pageContainerStyle } = useIndexCustomStyle(currentTabbarIndex)
 
-  const tabbarChangeEvent = (index: string | number) => {
-    notifyRef.value?.show({
-      msg: `当前选中的是第${index}个Tab`,
-    })
-  }
+onLoad((options: any) => {
+  // 当前进入子页面的索引值
+  const index = Number(options?.index || 0)
+  // 设置默认被渲染的页面
+  renderPageStatus.value[index] = true
+  nextTick(() => {
+    // 设置当前子页面的索引值
+    currentTabbarIndex.value = index
+  })
+})
 </script>
 
 <template>
-  <view class="content">
-    <image class="logo" src="/static/logo.png" />
-    <view class="text-area">
-      <view class="counter">Current Counter: {{ counter }}</view>
+  <view class="page">
+    <!-- 首页子页面 -->
+    <view
+      v-if="renderPageStatus[0]"
+      class="page__container"
+      :style="pageContainerStyle(0)"
+    >
+      <scroll-view class="scroll-view" scroll-y>
+        <PageA />
+      </scroll-view>
     </view>
-    <view class="operation">
-      <TnButton type="primary" @click="addCounter">Add Counter Value</TnButton>
+    <view
+      v-if="renderPageStatus[1]"
+      class="page__container"
+      :style="pageContainerStyle(1)"
+    >
+      <scroll-view class="scroll-view" scroll-y>
+        <PageB />
+      </scroll-view>
     </view>
-    <TnTabbar fixed @change="tabbarChangeEvent">
-      <TnTabbarItem text="首页" icon="home" active-icon="home-fill" />
-      <TnTabbarItem text="我的" icon="my" active-icon="my-fill" />
-    </TnTabbar>
+    <view
+      v-if="renderPageStatus[2]"
+      class="page__container"
+      :style="pageContainerStyle(2)"
+    >
+      <scroll-view class="scroll-view" scroll-y>
+        <PageC />
+      </scroll-view>
+    </view>
+    <view
+      v-if="renderPageStatus[3]"
+      class="page__container"
+      :style="pageContainerStyle(3)"
+    >
+      <scroll-view class="scroll-view" scroll-y>
+        <PageD />
+      </scroll-view>
+    </view>
   </view>
 
-  <TnNotify ref="notifyRef" />
+  <!-- 底部导航栏 -->
+  <TnTabbar
+    v-model="currentTabbarIndex"
+    fixed
+    :placeholder="false"
+    @change="tabbarChangeHandle"
+  >
+    <TnTabbarItem
+      v-for="(item, index) in tabbarData"
+      :key="index"
+      :text="item.text"
+      :icon="item.icon"
+      :active-icon="item.activeIcon"
+    />
+  </TnTabbar>
 </template>
 
 <style lang="scss" scoped>
-  .content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .logo {
-    height: 200rpx;
-    width: 200rpx;
-    margin-top: 200rpx;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 50rpx;
-  }
-
-  .text-area {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .counter {
-    font-size: 36rpx;
-  }
-
-  .operation {
-    margin-top: 50rpx;
-  }
+@import './styles/index.scss';
 </style>
