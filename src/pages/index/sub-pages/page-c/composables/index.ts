@@ -11,5 +11,5 @@ export const useSubPage = () => {
     console.log('pageC onShow')
   }
 
-  useSubPageProvide(onLoad, onShow)
+  useSubPageProvide(2, onLoad, onShow)
 }

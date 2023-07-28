@@ -3,6 +3,7 @@ import type { IndexPageOnLoadFunc, IndexPageOnShowFunc } from '../types'
 
 export type IndexSubPageContext = {
   uid: number
+  index: number
   onLoad: IndexPageOnLoadFunc
   onShow: IndexPageOnShowFunc
 }

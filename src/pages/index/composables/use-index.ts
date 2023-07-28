@@ -45,15 +45,19 @@ export const useIndex = () => {
   )
 
   // 底部导航栏发生切换事件
+  // 根据index查找对应的页面
+  const _findPageByIndex = (index: number) => {
+    return items.value.find((item) => item.index === index)
+  }
   const tabbarChangeHandle = (index: number) => {
     if (!renderPageStatus.value[index]) {
       renderPageStatus.value[index] = true
       nextTick(() => {
-        items.value[index]?.onLoad()
+        _findPageByIndex(index)?.onLoad()
       })
     }
     nextTick(() => {
-      items.value[index]?.onShow()
+      _findPageByIndex(index)?.onShow()
     })
   }
 

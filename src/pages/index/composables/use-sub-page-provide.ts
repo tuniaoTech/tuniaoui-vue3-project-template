@@ -3,6 +3,7 @@ import { indexPageContextKey } from '../tokens'
 import type { IndexPageOnLoadFunc, IndexPageOnShowFunc } from '../types'
 
 export const useSubPageProvide = (
+  index: number,
   onLoad: IndexPageOnLoadFunc,
   onShow: IndexPageOnShowFunc
 ) => {
@@ -13,6 +14,7 @@ export const useSubPageProvide = (
 
   indexPage?.addItem({
     uid,
+    index,
     onLoad,
     onShow,
   })
