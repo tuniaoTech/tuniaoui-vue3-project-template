@@ -53,11 +53,20 @@ export const useIndex = () => {
     if (!renderPageStatus.value[index]) {
       renderPageStatus.value[index] = true
       nextTick(() => {
-        _findPageByIndex(index)?.onLoad()
+        _findPageByIndex(index)?.onLoad?.()
       })
     }
     nextTick(() => {
-      _findPageByIndex(index)?.onShow()
+      _findPageByIndex(index)?.onShow?.()
+    })
+  }
+
+  // 处理页面对应scroll-view滚动事件
+  const scrollViewScrollHandle = (event: any) => {
+    const { scrollTop, scrollLeft } = event.detail
+    _findPageByIndex(currentTabbarIndex.value)?.onScroll?.({
+      top: scrollTop,
+      left: scrollLeft,
     })
   }
 
@@ -82,5 +91,6 @@ export const useIndex = () => {
     currentTabbarIndex,
     renderPageStatus,
     tabbarChangeHandle,
+    scrollViewScrollHandle,
   }
 }

@@ -1,11 +1,16 @@
 import type { InjectionKey } from 'vue'
-import type { IndexPageOnLoadFunc, IndexPageOnShowFunc } from '../types'
+import type {
+  IndexPageOnLoadFunc,
+  IndexPageOnScrollFunc,
+  IndexPageOnShowFunc,
+} from '../types'
 
 export type IndexSubPageContext = {
   uid: number
   index: number
-  onLoad: IndexPageOnLoadFunc
-  onShow: IndexPageOnShowFunc
+  onLoad?: IndexPageOnLoadFunc
+  onShow?: IndexPageOnShowFunc
+  onScroll?: IndexPageOnScrollFunc
 }
 
 export type IndexPageContext = {

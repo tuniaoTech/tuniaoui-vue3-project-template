@@ -1,11 +1,20 @@
 import { getCurrentInstance, inject } from 'vue'
 import { indexPageContextKey } from '../tokens'
-import type { IndexPageOnLoadFunc, IndexPageOnShowFunc } from '../types'
+import type {
+  IndexPageOnLoadFunc,
+  IndexPageOnScrollFunc,
+  IndexPageOnShowFunc,
+} from '../types'
+
+type SubPageProvideOptions = {
+  onLoad?: IndexPageOnLoadFunc
+  onShow?: IndexPageOnShowFunc
+  onScroll?: IndexPageOnScrollFunc
+}
 
 export const useSubPageProvide = (
   index: number,
-  onLoad: IndexPageOnLoadFunc,
-  onShow: IndexPageOnShowFunc
+  options: SubPageProvideOptions = {}
 ) => {
   const instance = getCurrentInstance()
   const { uid } = instance!
@@ -15,8 +24,9 @@ export const useSubPageProvide = (
   indexPage?.addItem({
     uid,
     index,
-    onLoad,
-    onShow,
+    onLoad: options?.onLoad,
+    onShow: options?.onShow,
+    onScroll: options?.onScroll,
   })
 
   return {

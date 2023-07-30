@@ -12,8 +12,13 @@ import PageD from './sub-pages/page-d/index.vue'
 
 import { useIndex, useIndexCustomStyle } from './composables'
 
-const { tabbarData, currentTabbarIndex, renderPageStatus, tabbarChangeHandle } =
-  useIndex()
+const {
+  tabbarData,
+  currentTabbarIndex,
+  renderPageStatus,
+  tabbarChangeHandle,
+  scrollViewScrollHandle,
+} = useIndex()
 const { pageContainerStyle } = useIndexCustomStyle(currentTabbarIndex)
 
 onLoad((options: any) => {
@@ -36,7 +41,11 @@ onLoad((options: any) => {
       class="page__container"
       :style="pageContainerStyle(0)"
     >
-      <scroll-view class="scroll-view" scroll-y>
+      <scroll-view
+        class="scroll-view"
+        scroll-y
+        @scroll="scrollViewScrollHandle"
+      >
         <PageA />
       </scroll-view>
     </view>
@@ -45,7 +54,11 @@ onLoad((options: any) => {
       class="page__container"
       :style="pageContainerStyle(1)"
     >
-      <scroll-view class="scroll-view" scroll-y>
+      <scroll-view
+        class="scroll-view"
+        scroll-y
+        @scroll="scrollViewScrollHandle"
+      >
         <PageB />
       </scroll-view>
     </view>
@@ -54,7 +67,11 @@ onLoad((options: any) => {
       class="page__container"
       :style="pageContainerStyle(2)"
     >
-      <scroll-view class="scroll-view" scroll-y>
+      <scroll-view
+        class="scroll-view"
+        scroll-y
+        @scroll="scrollViewScrollHandle"
+      >
         <PageC />
       </scroll-view>
     </view>
@@ -63,7 +80,11 @@ onLoad((options: any) => {
       class="page__container"
       :style="pageContainerStyle(3)"
     >
-      <scroll-view class="scroll-view" scroll-y>
+      <scroll-view
+        class="scroll-view"
+        scroll-y
+        @scroll="scrollViewScrollHandle"
+      >
         <PageD />
       </scroll-view>
     </view>
