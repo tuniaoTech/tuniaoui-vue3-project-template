@@ -1,4 +1,13 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+withDefaults(
+  defineProps<{
+    placeholderBottom: boolean
+  }>(),
+  {
+    placeholderBottom: true,
+  }
+)
+</script>
 
 // #ifdef MP-WEIXIN
 <script lang="ts">
@@ -12,7 +21,10 @@ export default {
 // #endif
 
 <template>
-  <view class="page-container">
+  <view
+    class="page-container"
+    :class="[{ 'placeholder-bottom': placeholderBottom }]"
+  >
     <slot />
   </view>
 </template>
